@@ -36,11 +36,11 @@ class MyHome extends StatelessWidget {
                   Container(
                       padding: EdgeInsets.only(top: 10.0, bottom: 6.0),
                       child: Text(
-                        "Foto con animación Hero",
+                        "¿Qué es programación?",
                         style: TextStyle(
                             fontSize: 24.0, fontWeight: FontWeight.w400),
                       )),
-                  Text("Aqui va el subtítulo, la descripción de la card",
+                  Text("La programación es el proceso utilizado para idear y ordenar las acciones necesarias para realizar un proyecto, preparar ciertas máquinas o aparatos para que empiecen a funcionar en el momento y en la forma deseados o elaborar programas para su empleo en computadoras.​",
                     style: TextStyle(color:Colors.grey,fontSize: 12.0, fontWeight: FontWeight.normal),
                     textAlign: TextAlign.justify,
 
