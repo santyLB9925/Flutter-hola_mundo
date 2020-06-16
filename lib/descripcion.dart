@@ -5,9 +5,10 @@ class Descripcion extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Details page'),
+        title: Text('Welcome'),
+
       ),
-      body: Center(child: Image.network("https://cdn.computerhoy.com/sites/navi.axelspringer.es/public/styles/1200/public/media/image/2019/05/visual-studio-online.jpg?itok=JmzraVZM")),
+      body: Center(child: Image.network("https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Commons-emblem-success.svg/1200px-Commons-emblem-success.svg.png")),
     );
   }
 }
