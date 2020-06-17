@@ -8,7 +8,7 @@ import '../descripcion.dart';
 
 
 Future<LoginModel> LoginRequest(BuildContext context, String user, String password) async {
-  final url = "https://a81f1725d486.ngrok.io/api/v1/login/";
+  final url = "https://8f14448cc8bb.ngrok.io/api/v1/login/";
 
 
   Map<String, String> body = {

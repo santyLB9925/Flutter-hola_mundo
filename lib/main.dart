@@ -24,7 +24,7 @@ class MyHomeForm extends StatefulWidget{
   }
 }
 class MyHomeFormState extends State<MyHomeForm> {
-  final _formKey = GlobalKey<FormState>();
+  var _formKey = GlobalKey<FormState>();
 
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -69,8 +69,8 @@ class MyHomeFormState extends State<MyHomeForm> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               controller: _userController,
-                              validator: (_userController){
-                                if(_userController.isEmpty ||_userController == null ){
+                              validator: (String valor){
+                                if(valor.isEmpty ||valor == null ){
                                   return "Necesitas llenar este campo";
                                 }
                                 return null;
@@ -94,8 +94,8 @@ class MyHomeFormState extends State<MyHomeForm> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               controller: _passwordController,
-                              validator: (_passwordController){
-                                if(_passwordController.isEmpty ||_passwordController == null ){
+                              validator: (String valor){
+                                if(valor.isEmpty ||valor == null ){
                                   return "Necesitas llenar este campo";
                                 }
                                 return null;
@@ -135,8 +135,15 @@ class MyHomeFormState extends State<MyHomeForm> {
                         child: RaisedButton(
 
                             onPressed: () {
-                              SystemChannels.textInput.invokeMethod('TextInput.hide');
-                              LoginRequest(context, _userController.text, _passwordController.text);
+                              setState(() {
+                                if(_formKey.currentState.validate()) {
+                                  SystemChannels.textInput.invokeMethod(
+                                      'TextInput.hide');
+                                  LoginRequest(context, _userController.text,
+                                      _passwordController.text);
+                                }
+                              });
+
                             },
                             child: Text("Login",
                                 style: TextStyle(color: Colors.white, fontSize: 20.0,fontFamily: "Proximanova",fontWeight: FontWeight.normal)),
