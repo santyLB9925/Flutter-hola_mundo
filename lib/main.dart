@@ -25,10 +25,13 @@ class MyHomeForm extends StatefulWidget{
 }
 class MyHomeFormState extends State<MyHomeForm> {
   var _formKey = GlobalKey<FormState>();
-
-  final TextEditingController _userController = TextEditingController();
+  Pattern pattern = r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-
+  @override
+  void initState() {
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,8 +40,8 @@ class MyHomeFormState extends State<MyHomeForm> {
           children: <Widget>[
             Container(
               child: Card(
-                elevation: 0,
-                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                elevation: 3,
+                margin: EdgeInsets.fromLTRB(10, 110, 10, 0),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
@@ -46,12 +49,15 @@ class MyHomeFormState extends State<MyHomeForm> {
                         child: Center(
                          // padding: EdgeInsets.fromLTRB(90.0, 40.0, 0.0, 15.0),
                           child: Padding(
-                            padding: EdgeInsets.fromLTRB(0.0, 80.0, 110.0, 10.0),
+                            padding: EdgeInsets.fromLTRB(0.0, 80.0, 0.0, 10.0),
                             child: RichText(
                               text: TextSpan(
-                                text: 'Hello\nThere',
-                                style: TextStyle(color: Colors.black,fontFamily: 'Proximanova',fontSize: 60,fontWeight: FontWeight.bold),
+                                text: 'Bienvenido \nA ',
+                                style: TextStyle(color: Colors.black,fontFamily: 'Proximanova',fontSize: 40,fontWeight: FontWeight.bold),
                                 children: <TextSpan> [
+                                  TextSpan(
+                                      text: 'Quickor',
+                                      style: TextStyle(color: Colors.green)),
                                   TextSpan(
                                       text: '.',
                                       style: TextStyle(color: Colors.green)),
@@ -68,13 +74,16 @@ class MyHomeFormState extends State<MyHomeForm> {
                             padding: EdgeInsets.fromLTRB(45.0, 40.0, 45.0, 0.0),
                             child: TextFormField(
                               cursorColor: Colors.black,
-                              controller: _userController,
+                              controller: _emailController,
                               validator: (String valor){
-                                if(valor.isEmpty ||valor == null ){
-                                  return "Necesitas llenar este campo";
+                                RegExp regex = new RegExp(pattern);
+                                if(!regex.hasMatch(valor) ){
+                                  return "Email inválido";
                                 }
+
                                 return null;
                               },
+                              keyboardType: TextInputType.emailAddress,
                               decoration: InputDecoration(
 
                                 labelText:"EMAIL" ,
@@ -94,9 +103,13 @@ class MyHomeFormState extends State<MyHomeForm> {
                             child: TextFormField(
                               cursorColor: Colors.black,
                               controller: _passwordController,
+
                               validator: (String valor){
                                 if(valor.isEmpty ||valor == null ){
                                   return "Necesitas llenar este campo";
+                                }
+                                if(valor.length<6){
+                                  return "Error en la longitud de caracteres";
                                 }
                                 return null;
                               },
@@ -128,21 +141,24 @@ class MyHomeFormState extends State<MyHomeForm> {
                     ),
 
                     Center(
+
                       child: Container(
+
                         margin: EdgeInsets.fromLTRB(0, 5, 0, 0),
                         width: 280,
                         height: 50.0,
                         child: RaisedButton(
 
                             onPressed: () {
+
                               setState(() {
                                 if(_formKey.currentState.validate()) {
-                                  SystemChannels.textInput.invokeMethod(
-                                      'TextInput.hide');
-                                  LoginRequest(context, _userController.text,
-                                      _passwordController.text);
+                                 print("se logueo");
+                                 SystemChannels.textInput.invokeMethod('TextInput.hide');
+                                 LoginRequest(context, _emailController.text, _passwordController.text);
                                 }
                               });
+
 
                             },
                             child: Text("Login",
@@ -154,15 +170,18 @@ class MyHomeFormState extends State<MyHomeForm> {
                     ),
                     Center(
                       child: Container(
-                        margin: EdgeInsets.fromLTRB(0, 15, 0, 0),
+                        margin: EdgeInsets.fromLTRB(0, 15, 0, 30),
                         width: 280,
                         height: 50.0,
 
                         child: OutlineButton.icon(
 
-                            icon: Image.network("https://img.icons8.com/material-outlined/24/000000/facebook-f.png"),
-                            onPressed: (){},
-                            label:Text("Log in with Facebook",
+                            icon: Image.network(""),
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Descripcion(
+                              )));
+                            },
+                            label:Text("Sign Up",
                                 style: TextStyle(color: Colors.black, fontSize: 18.0,fontFamily: "Proximanova",fontWeight: FontWeight.bold)),
                             borderSide: BorderSide(color: Colors.black,width: 2),
 
@@ -172,27 +191,7 @@ class MyHomeFormState extends State<MyHomeForm> {
                         ),
                       ),
                     ),
-                    Center(
-                      child: Padding(padding: EdgeInsets.only(right: 60),
-                      child: Row(
 
-                        children: <Widget>[
-                          Expanded(
-                            child: Text('New to Spotify?', textAlign: TextAlign.end),
-                          ),
-                          ButtonBar(
-                            alignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              FlatButton(
-                                child: Text("Register",
-                                    style: TextStyle(color: Color.fromRGBO(52, 229, 82, 100),fontFamily: "Proximanova", fontSize: 16.0,decoration: TextDecoration.underline,fontWeight: FontWeight.bold)),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                      ),
-                    )
                   ],
                 ),
               ),
